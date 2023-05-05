@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: builder-pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:v1.9.0-debug
+    args: ["--customPlatform=linux/amd64","--dockerfile=/build-context/Dockerfile","--context=dir:///build-context","--destination=172.17.253.209:5000/test-user:latest"]
+    volumeMounts:
+    - name: build-context
+      mountPath: /build-context
+    env:
+    - name: DOCKER_CONFIG
+      value: /kaniko/.docker/
+  volumes:
+  - name: build-context
+    configMap:
+      name: build-context
+      items:
+      - key: Dockerfile
+        path: Dockerfile
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: build-context
+data:
+  Dockerfile: |
+    FROM --platform=linux/amd64 ubuntu:22.04 AS testuser
+    RUN groupadd -g 1000 otheruser && useradd -g otheruser -u 1000 -s /bin/bash otheruser
+    USER otheruser
+    ENTRYPOINT [ "/bin/bash", "-c", "whoami" ]
+

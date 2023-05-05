@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: pull-pod
+spec:
+    containers:
+      - name: pull-pod-container
+        image: "172.17.253.209:5000/test-user:latest"
+    restartPolicy: Never
+
+
+
