@@ -1,4 +1,6 @@
 # incluster-regsitry
+![Screenshot 2023-04-27 at 12.15.27 AM.png](https://zenhub.ibm.com/images/63d0c1b66bae02b9f5905ea2/93317411-e360-430f-89f2-9cef5288d300)
+
 Following are the steps to create In-cluster registry and to execute build, push and pull operations in registry-pod
 
 ## 1. Setup Registry Pod
