@@ -7,12 +7,14 @@ Following are the steps to create In-cluster registry and to execute build, push
 -  Clone this [REPO](https://github.com/sudharshanibm3/incluster-regsitry) in local machine 
 -  Run `kubectl apply -f registry-pod.yaml` to create registry pod and service
 -  Run `kubectl get ep | grep ^re` and copy the ENDPOINTURL
--  Run `export REGSITRYPATH=<ENDPOINTURL>`
 -  Run following command to debug your node
-  ```
-  kubectl debug node/$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }') -it 
-  --image=ubuntu:latest
-  ```
+```
+kubectl debug node/$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }') -it --image=ubuntu:latest
+```
+- Export REGSITRYPATH by
+```
+export REGISTRYPATH = "<ENDPOINTURL>"
+```
 - Make directory with name of registry url
 ```
 mkdir host/etc/containerd/certs.d/${REGSITRYPATH} && cd host/etc/containerd/certs.d/${REGSITRYPATH}
@@ -25,11 +27,14 @@ server = "http:${REGSITRYPATH}"
   skip_verify=true
 EOL
 ```
+- Exit from node debugger by cmd `exit`
 
 ## 2. Setup Builder Pod
+- In builder-pod.yaml file update your ENDPOINT URL [in this line](https://github.com/sudharshanibm3/incluster-regsitry/blob/main/builder-pod.yaml#L9)
 -  Run `kubectl apply -f builder-pod.yaml`
 -  This will build the dockerfile and push to the registry
 
 ## 3. Setup Pull pod/ peer pod
+- In peer-pod.yaml file update your ENDPOINT URL [in this line](https://github.com/sudharshanibm3/incluster-regsitry/blob/main/peer-pod.yaml#L8)
 - Run `kubectl apply -f peer-pod.yaml`
 - This will create a pod with image from in-cluster registry
