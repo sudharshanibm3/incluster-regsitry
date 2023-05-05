@@ -6,7 +6,7 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:v1.9.0-debug
-    args: ["--customPlatform=linux/amd64","--dockerfile=/build-context/Dockerfile","--context=dir:///build-context","--destination=${REGSITRYPATH}/test-user:latest"]
+    args: ["--customPlatform=linux/amd64","--dockerfile=/build-context/Dockerfile","--context=dir:///build-context","--destination=<ENDPOINTURL>/test-user:latest"]
     volumeMounts:
     - name: build-context
       mountPath: /build-context
