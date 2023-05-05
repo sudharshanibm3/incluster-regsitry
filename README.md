@@ -11,22 +11,22 @@ Following are the steps to create In-cluster registry and to execute build, push
 -  Run `kubectl get ep | grep ^re` and copy the ENDPOINTURL
 -  Run following command to debug your node
 ```
-kubectl debug node/$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }') -it --image=ubuntu:latest
+kubectl debug node/<NODEIP> -it --image=ubuntu:latest
 ```
-- Export REGSITRYPATH by
+- Export REGISTRYPATH by
 ```
-export REGISTRYPATH = "<ENDPOINTURL>"
+export REGISTRYPATH="<ENDPOINTURL>"
 ```
 - Make directory with name of registry url
 ```
-mkdir host/etc/containerd/certs.d/${REGSITRYPATH} && cd host/etc/containerd/certs.d/${REGSITRYPATH}
+mkdir host/etc/containerd/certs.d/${REGISTRYPATH} && cd host/etc/containerd/certs.d/${REGISTRYPATH}
 ``` 
 - Create `hosts.toml` and add regsitry URL by executing the following command
 ```
 cat >hosts.toml<<EOL
-server = "http:${REGSITRYPATH}"
-[host."http:${REGSITRYPATH}"]
-  skip_verify=true
+server = "http://${REGISTRYPATH}"
+[host."http://${REGISTRYPATH}"]
+  skip_verify = true
 EOL
 ```
 - Exit from node debugger by cmd `exit`
