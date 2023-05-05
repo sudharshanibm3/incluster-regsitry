@@ -5,7 +5,7 @@ metadata:
 spec:
     containers:
       - name: pull-pod-container
-        image: "172.17.253.209:5000/test-user:latest"
+        image: "${REGSITRYPATH}/test-user:latest"
     restartPolicy: Never
 
 
