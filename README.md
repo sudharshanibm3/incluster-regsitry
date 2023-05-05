@@ -15,7 +15,7 @@ Following are the steps to create In-cluster registry and to execute build, push
   ```
 - Make directory with name of registry url
 ```
-mkdir host/etc/containerd/certs.d/anothaerone && cd host/etc/containerd/certs.d/${REGSITRYPATH}
+mkdir host/etc/containerd/certs.d/${REGSITRYPATH} && cd host/etc/containerd/certs.d/${REGSITRYPATH}
 ``` 
 - Create `hosts.toml` and add regsitry URL by executing the following command
 ```
